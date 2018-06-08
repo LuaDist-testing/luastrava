@@ -57,7 +57,7 @@ function Client:deauthorize()
 end
 
 
-function Client:update_athlete(args) --args(city,state,country,sex,weight
+function Client:update_athlete(args) --args(city,state,country,sex,weight)
     local params={ city=args.city,
                    state=args.state,
                    country=args.country,
@@ -70,11 +70,11 @@ function Client:update_athlete(args) --args(city,state,country,sex,weight
 
 end
 
-function Client:get_athlete_friends(args) --args(athlete_id,limit)
+function Client:get_athlete_friends(args) --args(athlete_id)
     if not args.athlete_id then
         result=self.protocol:get('/athlete/friends')
     else 
-        result=self.protocol:get('/athletes/'.. athlete_id ..'/friends')
+        result=self.protocol:get('/athletes/'.. args.athlete_id ..'/friends')
 
     end
     return result
@@ -94,7 +94,7 @@ end
 function Client:get_both_following(args)
     if not args.athlete_id then error("No athlete id provided") end
 
-    local result=self.protocol:get('/athletes/' .. athlete_id .. '/both-following')
+    local result=self.protocol:get('/athletes/' .. args.athlete_id .. '/both-following')
 
     return result
 end
@@ -124,8 +124,11 @@ end
 
 function Client:get_activity(args) --args(athlete_id,include_all_efforts)
     args.include_all_efforts=args.include_all_efforts or false
-    local res=self.protocol:get('/activities/' .. args.activity_id,{include_all_efforts=include_all_efforts})
-
+    if args.activity_id then
+        local res=self.protocol:get('/activities/' .. args.activity_id,{include_all_efforts=args.include_all_efforts})
+    else 
+        local res=self.protocol:get('/activities' )
+    end
     return res
 end
 
@@ -230,7 +233,7 @@ function Client:get_club(args)
     return res
 end
 
-function Client:get_athlete_clubs(args)
+function Client:get_athlete_clubs()
     local res=self.protocol:get('/athlete/clubs')
     return res
 end
@@ -257,12 +260,14 @@ function Client:get_club_activities(args)
 end
 
 
-
+-------------------------GEAR-----------------------
 function Client:get_gear(args)
+    if args.gear_id==nil then error("No gearid given") end
     local res=self.protocol:get('/gear/' .. args.gear_id)
     return res
 end
 
+--------------------------ROUTES------------------------------------
 function Client:get_routes(args)
     if args.athlete_id== nil then args.athlete_id=self:get_athlete().id end
     local res=self.protocol:get('/athletes/' .. args.athlete_id ..'/routes')
@@ -270,20 +275,44 @@ function Client:get_routes(args)
 end
 
 function Client:get_route(args) --args(route_id)
+    
     local res=self.protocol:get('/routes/' .. args.route_id)
     return res
     
 end
 
+
+-------------------------------------_RACES---------------------------
 function Client:get_races(args) --args(year)
     local res
     if args.year==nil then res=self.protocol:get('/running_races') 
     
-    else     res=self.protocol:get('/running_races/' .. year) end
+    else     res=self.protocol:get('/running_races/' .. args.year) end
+
+    return res
 end
 
 
 function Client:get_race(args) --args(race_id)
 end
+
+---------------SEGMENTS----------------------
+function get_segment(args) --args(segment_id)
+    if args.segment_id then
+        local res=self.protocol:get('/segment/' .. args.segment_id)
+        return res
+    else
+        error("No segment id specified")
+
+    end
+end
+
+function get_starrred_segment(args) -- args(limit)
+    local res=self.protocol:get('/segments/starred')
+    return res
+
+end
+
+
 
 return { Client=Client}

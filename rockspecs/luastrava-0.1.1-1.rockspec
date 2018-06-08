@@ -4,7 +4,7 @@ package = "luastrava"
 version = "0.1.1-1"
 source = {
   url = "git://github.com/akshaynathr/Lua-Strava",
-  tag = "v0.1.1",
+  tag = "v0.1-alpha",
 }
 description = {
   summary = "A Lua REST library for strava api",
@@ -21,9 +21,9 @@ dependencies = {
 build = {
   type="builtin",
   modules={
-    ["luastrava.client"] = "Lua-Strava/luastrava/client.lua",
-    ["luastrava.protocol"] = "Lua-Strava/luastrava/protocol.lua",
-    ["luastrava.encode"] = "Lua-Strava/luastrava/encode.lua",
+    ["luastrava.client"] = "luastrava/client.lua",
+    ["luastrava.protocol"] = "luastrava/protocol.lua",
+    ["luastrava.encode"] = "luastrava/encode.lua",
   }
 }
 

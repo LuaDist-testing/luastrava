@@ -3,16 +3,16 @@
 
 --*-lua-*--
 package = "luastrava"
-version = "0.1.1-1"
+version = "0.5.0-1"
 -- LuaDist source
 source = {
-  tag = "0.1.1-1",
+  tag = "0.5.0-1",
   url = "git://github.com/LuaDist-testing/luastrava.git"
 }
 -- Original source
 -- source = {
 --   url = "git://github.com/akshaynathr/Lua-Strava",
---   tag = "v0.1-alpha",
+--   tag = "v0.5",
 -- }
 description = {
   summary = "A Lua REST library for strava api",
